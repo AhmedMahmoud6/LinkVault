@@ -35,9 +35,11 @@ function validateForm(taskVal, urlVal, addBookmark) {
 }
 
 function createBookmark(taskVal, urlVal, bookMarksList) {
+  idCounter += 1;
   let bookmark = {
     taskVal,
     urlVal,
+    idCounter,
   };
 
   bookMarksList.unshift(bookmark);
@@ -47,18 +49,18 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
   if (bookMarksList.length < 1) {
     emptyState.classList.remove("hidden");
     bookmarksParent.classList.add("hidden");
+    return;
   } else {
     emptyState.classList.add("hidden");
     bookmarksParent.classList.remove("hidden");
 
-    idCounter += 1;
     bookmarksParent.innerHTML = "";
 
     for (let i of bookMarksList) {
       let bookmarkHtml = `
         <div
             class="task bg-[#243044] border-t-4 border-[#f97316] h-50 p-4 flex flex-col justify-between rounded outline-2 outline-[#333f52] cursor-pointer shadow-md hover:-translate-y-2 transition-all"
-            id = "${idCounter}"
+            id = "${i.idCounter}"
           >
             <div class="top-side">
               <h1 class="title text-white font-bold">
@@ -89,6 +91,7 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
         `;
       bookmarksParent.insertAdjacentHTML("beforeend", bookmarkHtml);
     }
+    return;
   }
 }
 
@@ -99,4 +102,14 @@ function createErrMsg(existingError, errMsg, addBookmark) {
   validationMsg.classList = "err text-[#ff858b] font-bold";
 
   addBookmark.before(validationMsg);
+}
+
+function searchBookmark(string, userInput) {
+  let i = 0;
+
+  for (let char of string) {
+    if (char === userInput[i]) i++;
+    if (userInput.length === i) return true;
+  }
+  return false;
 }
