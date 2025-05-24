@@ -20,6 +20,7 @@ addBookmark.addEventListener("click", (_) => {
   }
 });
 
+// search bookmarks
 searchDiv.addEventListener("input", (e) => {
   let userInput = e.target.value;
 
