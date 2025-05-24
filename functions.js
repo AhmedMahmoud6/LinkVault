@@ -4,13 +4,15 @@ function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
 
   // regex for real links
-  const isValidUrl = /^https?:\/\/[a-zA-Z0-9.-]+\.[a-z]{2,}/.test(urlVal);
+  const isValidUrl = /^https?:\/\/[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/.*)?$/.test(
+    urlVal
+  );
 
   // if taskVal and urlVal are not empty
   if (taskVal && urlVal) {
     // if the link input is valid
     if (!isValidUrl) {
-      createErrMsg(existingError, "Link is Inappropriate");
+      createErrMsg(existingError, "Link is Inappropriate", addBookmark);
       return false;
     }
 
@@ -24,7 +26,7 @@ function validateForm(taskVal, urlVal, addBookmark) {
 
   if (existingError) return false;
 
-  createErrMsg(existingError, "Both fields are required!");
+  createErrMsg(existingError, "Both fields are required!", addBookmark);
 
   if (!taskVal) addTask.classList.add("ring-4", "ring-[#ff858b]");
 
@@ -90,7 +92,7 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
   }
 }
 
-function createErrMsg(existingError, errMsg) {
+function createErrMsg(existingError, errMsg, addBookmark) {
   if (existingError) existingError.remove();
   let validationMsg = document.createElement("p");
   validationMsg.textContent = errMsg;
