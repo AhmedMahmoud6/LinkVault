@@ -66,7 +66,7 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
               </h1>
               <a
                 href="${i.urlVal}"
-                class="url text-[#f97316] hover:underline truncate w-80 max-[550px]:w-full block"
+                class="url text-[#f97316] hover:underline truncate w-full block"
                 target="_blank"
                 >${i.urlVal}</a
               >
