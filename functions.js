@@ -1,4 +1,4 @@
-let idCounter = 0;
+let idCounter = 0; // id counter
 
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
