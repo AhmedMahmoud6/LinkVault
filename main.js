@@ -12,11 +12,15 @@ let updateBookmarkBtn = document.querySelector(".update-bookmark");
 let editingBookmarkId = 0;
 
 let bookMarksList = [];
+JSON.parse(localStorage.getItem("bookmark"))
+  ? (bookMarksList = JSON.parse(localStorage.getItem("bookmark")))
+  : localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
 
 renderTasks(bookMarksList, emptyState, bookmarksParent);
+// render pagination
+renderPaginationBtns(bookMarksList, pagination);
 
 // add bookmark
-
 addBookmark.addEventListener("click", (_) => {
   let taskVal = addTask.value.trim();
   let urlVal = addUrl.value.trim();
@@ -25,6 +29,7 @@ addBookmark.addEventListener("click", (_) => {
     addUrl.value = "";
 
     createBookmark(taskVal, urlVal, bookMarksList);
+    localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
     totalPages = Math.ceil(bookMarksList.length / itemsPerPage); // update total pages counter
     renderTasks(bookMarksList, emptyState, bookmarksParent);
 
@@ -88,6 +93,8 @@ updateBookmarkBtn.addEventListener("click", (_) => {
       if (bookmark.idCounter === editingBookmarkId) {
         bookmark.taskVal = taskVal;
         bookmark.urlVal = urlVal;
+        localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
+        break;
       }
     renderPageTasks(currentPage);
     editContainer.classList.add("hidden");

@@ -51,6 +51,7 @@ function createBookmark(taskVal, urlVal, bookMarksList) {
   };
 
   bookMarksList.unshift(bookmark);
+  localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
 }
 
 function deleteBookmark(delBtn, bookMarksList, pagination) {
@@ -61,8 +62,12 @@ function deleteBookmark(delBtn, bookMarksList, pagination) {
       break;
     }
   }
+  localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
   renderPageTasks(currentPage);
-  renderPaginationBtns(bookMarksList, pagination);
+  renderPaginationBtns(
+    JSON.parse(localStorage.getItem("bookmark")),
+    pagination
+  );
 }
 
 function renderTasks(
@@ -163,7 +168,11 @@ function renderPageTasks(clickedPage) {
   currentPage = Number(clickedPage);
   startPoint = (currentPage - 1) * itemsPerPage;
   endPoint = startPoint + itemsPerPage;
-  renderTasks(bookMarksList, emptyState, bookmarksParent);
+  renderTasks(
+    JSON.parse(localStorage.getItem("bookmark")),
+    emptyState,
+    bookmarksParent
+  );
 }
 
 function renderPaginationBtns(bookMarksList, pagination) {
