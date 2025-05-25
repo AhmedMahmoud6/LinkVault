@@ -1,4 +1,9 @@
 let idCounter = 0; // id counter
+let currentPage = 1;
+let neededPage = 1;
+let bookmarksArrayMoving = (neededPage - currentPage) * 4;
+let startPoint = 0;
+let endPoint = 4;
 
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
@@ -46,7 +51,10 @@ function createBookmark(taskVal, urlVal, bookMarksList) {
 }
 
 function renderTasks(bookMarksList, emptyState, bookmarksParent) {
-  if (bookMarksList.length < 1) {
+  if (
+    bookMarksList.length < 1 ||
+    bookMarksList.slice(startPoint, endPoint).length < 1
+  ) {
     emptyState.classList.remove("hidden");
     bookmarksParent.classList.add("hidden");
     return;
@@ -56,7 +64,7 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
 
     bookmarksParent.innerHTML = "";
 
-    for (let i of bookMarksList) {
+    for (let i of bookMarksList.slice(startPoint, endPoint)) {
       let bookmarkHtml = `
         <div
             class="task bg-[#243044] border-t-4 border-[#f97316] h-50 p-4 flex flex-col justify-between rounded outline-2 outline-[#333f52] cursor-pointer shadow-md hover:-translate-y-2 transition-all"
@@ -112,4 +120,13 @@ function searchBookmark(string, userInput) {
     if (userInput.length === i) return true;
   }
   return false;
+}
+
+function paginationFunction(clickedPage) {
+  neededPage = clickedPage;
+  bookmarksArrayMoving = (neededPage - currentPage) * 4;
+  startPoint += bookmarksArrayMoving;
+  endPoint += bookmarksArrayMoving;
+  currentPage = neededPage;
+  renderTasks(bookMarksList, emptyState, bookmarksParent);
 }
