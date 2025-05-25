@@ -9,8 +9,6 @@ let pagination = document.querySelector(".pagination");
 let bookMarksList = [];
 renderTasks(bookMarksList, emptyState, bookmarksParent);
 
-// if (bookMarksList.length < 4) pagination.classList.add("hidden");
-
 // add bookmark
 
 addBookmark.addEventListener("click", (_) => {
@@ -23,9 +21,8 @@ addBookmark.addEventListener("click", (_) => {
     createBookmark(taskVal, urlVal, bookMarksList);
     renderTasks(bookMarksList, emptyState, bookmarksParent);
 
-    if (bookMarksList.length > 4) {
-      pagination.classList.remove("hidden");
-    }
+    // render pagination
+    renderPaginationBtns(bookMarksList, pagination);
   }
 });
 
@@ -45,8 +42,9 @@ searchDiv.addEventListener("input", (e) => {
 });
 
 document.addEventListener("click", (e) => {
-  // pagination
+  // render page tasks
   if (e.target.classList.contains("page")) {
-    paginationFunction(e.target.innerText);
+    renderPageTasks(e.target.innerText);
+    renderPaginationBtns(bookMarksList, pagination);
   }
 });

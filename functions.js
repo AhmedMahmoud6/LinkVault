@@ -1,11 +1,11 @@
 let idCounter = 0; // id counter
 let currentPage = 1;
-let neededPage = 1;
-let bookmarksArrayMoving = (neededPage - currentPage) * 4;
 let startPoint = 0;
 let endPoint = 4;
 let tempStartPoint;
 let tempEndPoint;
+
+let itemsPerPage = 4;
 
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
@@ -137,11 +137,30 @@ function searchBookmark(string, userInput) {
   return false;
 }
 
-function paginationFunction(clickedPage) {
-  neededPage = clickedPage;
-  bookmarksArrayMoving = (neededPage - currentPage) * 4;
-  startPoint += bookmarksArrayMoving;
-  endPoint += bookmarksArrayMoving;
-  currentPage = neededPage;
+function renderPageTasks(clickedPage) {
+  currentPage = Number(clickedPage);
+  startPoint = (currentPage - 1) * 4;
+  endPoint = startPoint + 4;
   renderTasks(bookMarksList, emptyState, bookmarksParent);
+}
+
+function renderPaginationBtns(bookMarksList, pagination) {
+  let totalPages = Math.ceil(bookMarksList.length / itemsPerPage);
+
+  pagination.innerHTML = "";
+
+  for (let i = 1; i <= totalPages; i++) {
+    let pageBtn = document.createElement("div");
+    pageBtn.className =
+      "page bg-[#243044] active:bg-[#059669] w-12 h-12 rounded outline-2 outline-[#333f52] cursor-pointer shadow-md text-white flex justify-center items-center text-xl";
+    pageBtn.textContent = i;
+
+    if (i === currentPage) {
+      pageBtn.classList.replace("bg-[#243044]", "bg-[#059669]");
+    }
+
+    pagination.appendChild(pageBtn);
+  }
+
+  pagination.classList.remove("hidden");
 }
