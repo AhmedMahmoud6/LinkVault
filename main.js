@@ -7,6 +7,7 @@ let searchDiv = document.querySelector(".search");
 let pagination = document.querySelector(".pagination");
 
 let bookMarksList = [];
+
 renderTasks(bookMarksList, emptyState, bookmarksParent);
 
 // add bookmark
@@ -19,6 +20,7 @@ addBookmark.addEventListener("click", (_) => {
     addUrl.value = "";
 
     createBookmark(taskVal, urlVal, bookMarksList);
+    totalPages = Math.ceil(bookMarksList.length / itemsPerPage); // update total pages counter
     renderTasks(bookMarksList, emptyState, bookmarksParent);
 
     // render pagination

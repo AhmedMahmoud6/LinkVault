@@ -5,7 +5,10 @@ let endPoint = 4;
 let tempStartPoint;
 let tempEndPoint;
 
+let totalPages;
 let itemsPerPage = 4;
+
+function setPaginationRenderLimit() {}
 
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
@@ -151,28 +154,72 @@ function searchBookmark(string, userInput) {
 
 function renderPageTasks(clickedPage) {
   currentPage = Number(clickedPage);
-  startPoint = (currentPage - 1) * 4;
-  endPoint = startPoint + 4;
+  startPoint = (currentPage - 1) * itemsPerPage;
+  endPoint = startPoint + itemsPerPage;
   renderTasks(bookMarksList, emptyState, bookmarksParent);
 }
 
 function renderPaginationBtns(bookMarksList, pagination) {
-  let totalPages = Math.ceil(bookMarksList.length / itemsPerPage);
+  totalPages = Math.ceil(bookMarksList.length / itemsPerPage);
 
   pagination.innerHTML = "";
 
-  for (let i = 1; i <= totalPages; i++) {
-    let pageBtn = document.createElement("div");
-    pageBtn.className =
-      "page bg-[#243044] active:bg-[#059669] w-12 h-12 rounded outline-2 outline-[#333f52] cursor-pointer shadow-md text-white flex justify-center items-center text-xl";
-    pageBtn.textContent = i;
-
-    if (i === currentPage) {
-      pageBtn.classList.replace("bg-[#243044]", "bg-[#059669]");
+  if (totalPages <= 5)
+    for (let i = 1; i <= totalPages; i++) pageButton(pagination, i);
+  else {
+    // left side
+    if (currentPage < 3) {
+      for (let i = 1; i <= 4; i++) {
+        pageButton(pagination, i);
+      }
+      ellipses(pagination);
+      pageButton(pagination, totalPages);
     }
 
-    pagination.appendChild(pageBtn);
+    // center side [1 ... 3 4 5 ... 6]
+    if (currentPage > 2 && currentPage <= totalPages - 2) {
+      console.log(currentPage);
+      let beforePage = currentPage - 1;
+      let afterPage = currentPage + 1;
+      pageButton(pagination, 1);
+      ellipses(pagination);
+      for (let pageLength = beforePage; pageLength <= afterPage; pageLength++) {
+        pageButton(pagination, pageLength);
+      }
+      ellipses(pagination);
+      pageButton(pagination, totalPages);
+    }
+
+    // right side
+    if (currentPage > totalPages - 3) {
+      pageButton(pagination, 1);
+      ellipses(pagination);
+      for (let i = totalPages - 3; i <= totalPages; i++) {
+        pageButton(pagination, i);
+      }
+    }
   }
 
   pagination.classList.remove("hidden");
+}
+
+function pageButton(pagination, loopIterable) {
+  let pageBtn = document.createElement("div");
+  pageBtn.className =
+    "page bg-[#243044] active:bg-[#059669] w-12 h-12 rounded outline-2 outline-[#333f52] cursor-pointer shadow-md text-white flex justify-center items-center text-xl";
+
+  pageBtn.textContent = loopIterable;
+  if (loopIterable === currentPage) {
+    pageBtn.classList.replace("bg-[#243044]", "bg-[#059669]");
+  }
+
+  pagination.appendChild(pageBtn);
+}
+
+function ellipses(pagination) {
+  let ellipsesDiv = document.createElement("p");
+  ellipsesDiv.textContent = "...";
+  ellipsesDiv.className = "text-white text-2xl";
+
+  pagination.appendChild(ellipsesDiv);
 }
