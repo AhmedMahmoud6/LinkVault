@@ -52,6 +52,18 @@ function createBookmark(taskVal, urlVal, bookMarksList) {
   bookMarksList.unshift(bookmark);
 }
 
+function deleteBookmark(delBtn, bookMarksList, pagination) {
+  let currBookmark = delBtn.closest(".task");
+  for (let i = 0; i < bookMarksList.length; i++) {
+    if (bookMarksList[i].idCounter == currBookmark.id) {
+      bookMarksList.splice(i, 1);
+      break;
+    }
+  }
+  renderPageTasks(currentPage);
+  renderPaginationBtns(bookMarksList, pagination);
+}
+
 function renderTasks(
   bookMarksList,
   emptyState,
@@ -82,7 +94,7 @@ function renderTasks(
             id = "${i.idCounter}"
           >
             <div class="top-side">
-              <h1 class="title text-white font-bold">
+              <h1 class="title text-white font-bold truncate">
                 ${i.taskVal}
               </h1>
               <a

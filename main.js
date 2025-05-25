@@ -47,4 +47,9 @@ document.addEventListener("click", (e) => {
     renderPageTasks(e.target.innerText);
     renderPaginationBtns(bookMarksList, pagination);
   }
+
+  // delete bookmark
+  if (e.target.classList.contains("delete-btn")) {
+    deleteBookmark(e.target, bookMarksList, pagination);
+  }
 });
