@@ -93,7 +93,7 @@ function renderTasks(
     for (let i of bookMarksList.slice(startPoint, endPoint)) {
       let bookmarkHtml = `
         <div
-            class="task bg-[#243044] border-t-4 border-[#f97316] h-50 p-4 flex flex-col justify-between rounded outline-2 outline-[#333f52] cursor-pointer shadow-md hover:-translate-y-2 transition-all"
+            class="task bg-[#243044] border-t-4 border-[#f97316] h-50 p-4 flex flex-col justify-between rounded outline-2 outline-[#333f52] shadow-md hover:-translate-y-2 transition-all"
             id = "${i.idCounter}"
           >
             <div class="top-side">
@@ -107,6 +107,15 @@ function renderTasks(
                 >${i.urlVal}</a
               >
             </div>
+
+            <a
+                href="${i.urlVal}"
+                target="_blank"
+                class="text-white text-center w-20 bg-[#059669] cursor-pointer hover:bg-[#14cb92] focus:ring-3 focus:ring-[#52e0b4] font-medium rounded-lg text-sm px-5 py-2.5"
+              >
+                Visit
+            </a>
+
             <div class="bottom-side flex gap-4">
               <button
                 type="button"
