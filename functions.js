@@ -8,8 +8,6 @@ let tempEndPoint;
 let totalPages;
 let itemsPerPage = 4;
 
-function setPaginationRenderLimit() {}
-
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
 

@@ -5,6 +5,11 @@ let emptyState = document.querySelector(".empty-state");
 let bookmarksParent = document.querySelector(".bookmarks");
 let searchDiv = document.querySelector(".search");
 let pagination = document.querySelector(".pagination");
+let editContainer = document.querySelector(".edit-container");
+let editTitleInput = document.querySelector(".edit-title");
+let editUrlInput = document.querySelector(".edit-url");
+let updateBookmarkBtn = document.querySelector(".update-bookmark");
+let editingBookmarkId = 0;
 
 let bookMarksList = [];
 
@@ -53,5 +58,38 @@ document.addEventListener("click", (e) => {
   // delete bookmark
   if (e.target.classList.contains("delete-btn")) {
     deleteBookmark(e.target, bookMarksList, pagination);
+  }
+
+  // open edit bookmark
+  if (e.target.classList.contains("edit-btn")) {
+    let currBookmark = e.target.closest(".task");
+    editingBookmarkId = Number(currBookmark.id);
+
+    editContainer.classList.remove("hidden");
+
+    editTitleInput.focus();
+    editTitleInput.value = currBookmark.querySelector("h1").innerText;
+
+    editUrlInput.value = currBookmark.querySelector("a").href;
+  }
+
+  // close edit bookmark
+  if (e.target.classList.contains("edit-container")) {
+    e.target.classList.add("hidden");
+  }
+});
+
+// edit bookmark
+updateBookmarkBtn.addEventListener("click", (_) => {
+  let taskVal = editTitleInput.value.trim();
+  let urlVal = editUrlInput.value.trim();
+  if (validateForm(taskVal, urlVal, editContainer)) {
+    for (let bookmark of bookMarksList)
+      if (bookmark.idCounter === editingBookmarkId) {
+        bookmark.taskVal = taskVal;
+        bookmark.urlVal = urlVal;
+      }
+    renderPageTasks(currentPage);
+    editContainer.classList.add("hidden");
   }
 });
