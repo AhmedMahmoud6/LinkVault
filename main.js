@@ -38,8 +38,10 @@ searchDiv.addEventListener("input", (e) => {
       searchBookmark(task.taskVal, userInput)
     );
 
-    renderTasks(result, emptyState, bookmarksParent);
+    renderTasks(result, emptyState, bookmarksParent, true);
   }
+  if (userInput.length == 0)
+    renderTasks(bookMarksList, emptyState, bookmarksParent, false);
 });
 
 document.addEventListener("click", (e) => {

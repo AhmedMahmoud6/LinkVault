@@ -4,6 +4,8 @@ let neededPage = 1;
 let bookmarksArrayMoving = (neededPage - currentPage) * 4;
 let startPoint = 0;
 let endPoint = 4;
+let tempStartPoint;
+let tempEndPoint;
 
 function validateForm(taskVal, urlVal, addBookmark) {
   let existingError = document.querySelector(".err");
@@ -50,11 +52,13 @@ function createBookmark(taskVal, urlVal, bookMarksList) {
   bookMarksList.unshift(bookmark);
 }
 
-function renderTasks(bookMarksList, emptyState, bookmarksParent) {
-  if (
-    bookMarksList.length < 1 ||
-    bookMarksList.slice(startPoint, endPoint).length < 1
-  ) {
+function renderTasks(
+  bookMarksList,
+  emptyState,
+  bookmarksParent,
+  search = false
+) {
+  if (bookMarksList.length < 1 || bookMarksList.slice(0, 4).length < 1) {
     emptyState.classList.remove("hidden");
     bookmarksParent.classList.add("hidden");
     return;
@@ -63,6 +67,13 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
     bookmarksParent.classList.remove("hidden");
 
     bookmarksParent.innerHTML = "";
+
+    if (search) {
+      tempStartPoint = startPoint;
+      tempEndPoint = endPoint;
+      startPoint = 0;
+      endPoint = 4;
+    }
 
     for (let i of bookMarksList.slice(startPoint, endPoint)) {
       let bookmarkHtml = `
@@ -98,6 +109,10 @@ function renderTasks(bookMarksList, emptyState, bookmarksParent) {
         </div>
         `;
       bookmarksParent.insertAdjacentHTML("beforeend", bookmarkHtml);
+    }
+    if (search) {
+      startPoint = tempStartPoint;
+      endPoint = tempEndPoint;
     }
     return;
   }
