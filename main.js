@@ -25,13 +25,14 @@ addBookmark.addEventListener("click", (_) => {
   let taskVal = addTask.value.trim();
   let urlVal = addUrl.value.trim();
   if (validateForm(taskVal, urlVal, addBookmark)) {
-    addTask.value = "";
-    addUrl.value = "";
+    addTask.value = ""; // clear title input
+    addUrl.value = ""; // clear url input
+    searchDiv.querySelector("input").value = ""; // clear search input
 
     createBookmark(taskVal, urlVal, bookMarksList);
     localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
     totalPages = Math.ceil(bookMarksList.length / itemsPerPage); // update total pages counter
-    renderTasks(bookMarksList, emptyState, bookmarksParent);
+    renderTasks(bookMarksList, emptyState, bookmarksParent, false);
 
     // render pagination
     renderPaginationBtns(bookMarksList, pagination);
