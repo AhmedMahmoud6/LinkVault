@@ -48,10 +48,15 @@ searchDiv.addEventListener("input", (e) => {
       searchBookmark(task.taskVal, userInput)
     );
 
+    if (result.length === 0) pagination.classList.add("hidden"); // hide pagination when no results
+
     renderTasks(result, emptyState, bookmarksParent, true);
+    renderPaginationBtns(result, pagination);
   }
-  if (userInput.length == 0)
+  if (userInput.length == 0) {
     renderTasks(bookMarksList, emptyState, bookmarksParent, false);
+    pagination.classList.remove("hidden");
+  }
 });
 
 document.addEventListener("click", (e) => {
