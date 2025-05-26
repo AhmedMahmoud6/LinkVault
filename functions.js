@@ -193,7 +193,7 @@ function renderPaginationBtns(bookMarksList, pagination) {
     }
 
     // center side [1 ... 3 4 5 ... 6]
-    if (currentPage > 2 && currentPage <= totalPages - 2) {
+    if (currentPage > 2 && currentPage < totalPages - 2) {
       console.log(currentPage);
       let beforePage = currentPage - 1;
       let afterPage = currentPage + 1;
