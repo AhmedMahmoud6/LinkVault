@@ -199,7 +199,7 @@ function renderPaginationBtns(bookMarksList, pagination) {
     for (let i = 1; i <= totalPages; i++) pageButton(pagination, i);
   else {
     // left side
-    if (currentPage < 3) {
+    if (currentPage - 1 < 3) {
       for (let i = 1; i <= 4; i++) {
         pageButton(pagination, i);
       }
@@ -207,8 +207,8 @@ function renderPaginationBtns(bookMarksList, pagination) {
       pageButton(pagination, totalPages);
     }
 
-    // center side [1 ... 3 4 5 ... 6]
-    if (currentPage > 2 && currentPage < totalPages - 2) {
+    // center side [1 ... 3 4 5 ... 7]
+    if (currentPage - 1 >= 3 && totalPages - currentPage > 2) {
       let beforePage = currentPage - 1;
       let afterPage = currentPage + 1;
       pageButton(pagination, 1);
@@ -221,7 +221,7 @@ function renderPaginationBtns(bookMarksList, pagination) {
     }
 
     // right side
-    if (currentPage > totalPages - 3) {
+    if (totalPages - currentPage <= 2) {
       pageButton(pagination, 1);
       ellipses(pagination);
       for (let i = totalPages - 3; i <= totalPages; i++) {
