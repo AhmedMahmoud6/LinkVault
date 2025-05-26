@@ -177,7 +177,7 @@ function searchBookmark(string, userInput) {
   let i = 0;
 
   for (let char of string) {
-    if (char === userInput[i]) i++;
+    if (char.toLowerCase() === userInput[i].toLowerCase()) i++;
     if (userInput.length === i) return true;
   }
   return false;
