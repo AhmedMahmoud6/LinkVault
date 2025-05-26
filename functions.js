@@ -8,7 +8,7 @@ let tempEndPoint;
 let totalPages;
 let itemsPerPage = 4;
 
-function validateForm(taskVal, urlVal, addBookmark) {
+function validateForm(taskVal, urlVal, addBookmark, titleDiv, urlDiv) {
   let existingError = document.querySelector(".err");
 
   // regex for real links
@@ -20,25 +20,43 @@ function validateForm(taskVal, urlVal, addBookmark) {
   if (taskVal && urlVal) {
     // if the link input is valid
     if (!isValidUrl) {
-      createErrMsg(existingError, "Link is Inappropriate", addBookmark);
+      existingError = createErrMsg(
+        existingError,
+        "Link is Inappropriate",
+        addBookmark
+      );
+      console.log(existingError);
+      setTimeout(() => {
+        if (existingError) existingError.remove();
+      }, 3000);
       return false;
     }
 
     if (existingError) existingError.remove();
 
-    addTask.classList.remove("ring-4", "ring-[#ff858b]");
-    addUrl.classList.remove("ring-4", "ring-[#ff858b]");
+    titleDiv.classList.remove("ring-4", "ring-[#ff858b]");
+    urlDiv.classList.remove("ring-4", "ring-[#ff858b]");
 
     return true;
   }
 
   if (existingError) return false;
 
-  createErrMsg(existingError, "Both fields are required!", addBookmark);
+  existingError = createErrMsg(
+    existingError,
+    "Both fields are required!",
+    addBookmark
+  );
 
-  if (!taskVal) addTask.classList.add("ring-4", "ring-[#ff858b]");
+  if (!taskVal) titleDiv.classList.add("ring-4", "ring-[#ff858b]");
 
-  if (!urlVal) addUrl.classList.add("ring-4", "ring-[#ff858b]");
+  if (!urlVal) urlDiv.classList.add("ring-4", "ring-[#ff858b]");
+
+  console.log(document.querySelector(".err"));
+
+  setTimeout(() => {
+    if (existingError) existingError.remove();
+  }, 3000);
   return false;
 }
 
@@ -152,6 +170,7 @@ function createErrMsg(existingError, errMsg, addBookmark) {
   validationMsg.classList = "err text-[#ff858b] font-bold";
 
   addBookmark.before(validationMsg);
+  return validationMsg;
 }
 
 function searchBookmark(string, userInput) {

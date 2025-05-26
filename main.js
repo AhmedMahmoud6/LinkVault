@@ -26,7 +26,7 @@ renderPaginationBtns(bookMarksList, pagination);
 addBookmark.addEventListener("click", (_) => {
   let taskVal = addTask.value.trim();
   let urlVal = addUrl.value.trim();
-  if (validateForm(taskVal, urlVal, addBookmark)) {
+  if (validateForm(taskVal, urlVal, addBookmark, addTask, addUrl)) {
     addTask.value = ""; // clear title input
     addUrl.value = ""; // clear url input
     searchDiv.querySelector("input").value = ""; // clear search input
@@ -105,7 +105,15 @@ document.addEventListener("click", (e) => {
 updateBookmarkBtn.addEventListener("click", (_) => {
   let taskVal = editTitleInput.value.trim();
   let urlVal = editUrlInput.value.trim();
-  if (validateForm(taskVal, urlVal, editContainer)) {
+  if (
+    validateForm(
+      taskVal,
+      urlVal,
+      updateBookmarkBtn,
+      editTitleInput,
+      editUrlInput
+    )
+  ) {
     for (let bookmark of bookMarksList)
       if (bookmark.idCounter === editingBookmarkId) {
         bookmark.taskVal = taskVal;
