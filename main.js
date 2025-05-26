@@ -11,12 +11,14 @@ let editUrlInput = document.querySelector(".edit-url");
 let updateBookmarkBtn = document.querySelector(".update-bookmark");
 let editingBookmarkId = 0;
 
+let result = [];
 let bookMarksList = [];
 JSON.parse(localStorage.getItem("bookmark"))
   ? (bookMarksList = JSON.parse(localStorage.getItem("bookmark")))
   : localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
 
 renderTasks(bookMarksList, emptyState, bookmarksParent);
+
 // render pagination
 renderPaginationBtns(bookMarksList, pagination);
 
@@ -36,6 +38,9 @@ addBookmark.addEventListener("click", (_) => {
 
     // render pagination
     renderPaginationBtns(bookMarksList, pagination);
+
+    // update result arr length to not conflict with pagination when adding new bookmarks
+    result.length = 0;
   }
 });
 
@@ -44,7 +49,7 @@ searchDiv.addEventListener("input", (e) => {
   let userInput = e.target.value;
 
   if (!bookMarksList.length < 1) {
-    let result = bookMarksList.filter((task) =>
+    result = bookMarksList.filter((task) =>
       searchBookmark(task.taskVal, userInput)
     );
 
@@ -62,8 +67,14 @@ searchDiv.addEventListener("input", (e) => {
 document.addEventListener("click", (e) => {
   // render page tasks
   if (e.target.classList.contains("page")) {
-    renderPageTasks(e.target.innerText);
-    renderPaginationBtns(bookMarksList, pagination);
+    renderPageTasks(
+      e.target.innerText,
+      result.length === 0 ? bookMarksList : result
+    );
+    renderPaginationBtns(
+      result.length === 0 ? bookMarksList : result,
+      pagination
+    );
   }
 
   // delete bookmark
@@ -102,7 +113,7 @@ updateBookmarkBtn.addEventListener("click", (_) => {
         localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
         break;
       }
-    renderPageTasks(currentPage);
+    renderPageTasks(currentPage, result.length === 0 ? bookMarksList : result);
     editContainer.classList.add("hidden");
   }
 });

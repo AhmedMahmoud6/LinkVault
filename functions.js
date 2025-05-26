@@ -63,7 +63,7 @@ function deleteBookmark(delBtn, bookMarksList, pagination) {
     }
   }
   localStorage.setItem("bookmark", JSON.stringify(bookMarksList));
-  renderPageTasks(currentPage);
+  renderPageTasks(currentPage, bookMarksList);
   renderPaginationBtns(
     JSON.parse(localStorage.getItem("bookmark")),
     pagination
@@ -164,15 +164,11 @@ function searchBookmark(string, userInput) {
   return false;
 }
 
-function renderPageTasks(clickedPage) {
+function renderPageTasks(clickedPage, renderedList) {
   currentPage = Number(clickedPage);
   startPoint = (currentPage - 1) * itemsPerPage;
   endPoint = startPoint + itemsPerPage;
-  renderTasks(
-    JSON.parse(localStorage.getItem("bookmark")),
-    emptyState,
-    bookmarksParent
-  );
+  renderTasks(renderedList, emptyState, bookmarksParent);
 }
 
 function renderPaginationBtns(bookMarksList, pagination) {
